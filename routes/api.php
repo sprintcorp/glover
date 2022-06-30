@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['prefix' => 'auth','middleware'=>'auth:api'], function(){
+Route::group(['prefix' => 'auth','middleware'=>['auth:api','role:admin']], function(){
     Route::resource('user',UserController::class);
+    Route::put('approve-request/{approval}',[UserController::class,'approve']);
+    Route::put('decline-request/{approval}',[UserController::class,'decline']);
 });

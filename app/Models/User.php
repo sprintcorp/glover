@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -61,12 +62,14 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-    * Hashed password when persisting data to database
+    * Hashed password when persisting data to database on registration
      */
     protected static function booted()
     {
         static::creating(function ($model) {
-            $model->password = Hash::make(request()->password);
+            if(request()->isMethod('POST'))
+                $model->password = Hash::make(request()->password);
+
         });
     }
 
@@ -78,5 +81,10 @@ class User extends Authenticatable implements JWTSubject
     public function approvedBy():HasMany
     {
         return $this->hasMany(Approval::class,'approved_by','id');
+    }
+
+    public function approvalModel():HasMany
+    {
+        return $this->hasMany(Approval::class,'model_id','id');
     }
 }

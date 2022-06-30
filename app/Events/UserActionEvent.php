@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\User;
+use App\Models\Approval;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,7 +15,7 @@ class UserActionEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $userInformation;
+    public $approval;
     public $email;
     public $subject;
     /**
@@ -23,10 +23,10 @@ class UserActionEvent
      *
      * @return void
      */
-    public function __construct(User $user, $email, $subject)
+    public function __construct(Approval $approval, $email, $subject)
     {
         $this->email = $email;
-        $this->userInformation = $user;
+        $this->approval = $approval;
         $this->subject = $subject;
     }
 

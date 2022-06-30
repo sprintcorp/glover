@@ -21,6 +21,7 @@ class CreateApprovalsTable extends Migration
             $table->integer('model_id')->nullable();
             $table->string('data')->nullable();
             $table->string('action');
+            $table->timestamp('approved_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

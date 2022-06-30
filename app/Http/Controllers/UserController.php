@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Interfaces\UserInterface;
 use App\Http\Requests\UserRequest;
+use App\Models\Approval;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return $this->user->fetch();
     }
 
     /**
@@ -62,11 +63,21 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param User $user
      * @return Response
      */
     public function destroy(User $user)
     {
         return $this->user->delete($user);
+    }
+
+    public function approve(Approval $approval)
+    {
+        return $this->user->approve($approval);
+    }
+
+    public function decline(Approval $approval)
+    {
+        return $this->user->decline($approval);
     }
 }
