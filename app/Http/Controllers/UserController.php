@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        //
+        return $this->user->create($request->all());
     }
 
     /**
@@ -56,7 +56,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        //
+        return $this->user->update($user, $request->all());
     }
 
     /**
@@ -67,6 +67,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        return $this->user->delete($user);
     }
 }

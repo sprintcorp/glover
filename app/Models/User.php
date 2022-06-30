@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','status','deleted_at','updated_at','email_verified_at',
+        'password', 'remember_token','status',
+        'deleted_at','updated_at','email_verified_at',
     ];
 
     /**
@@ -66,5 +68,15 @@ class User extends Authenticatable implements JWTSubject
         static::creating(function ($model) {
             $model->password = Hash::make(request()->password);
         });
+    }
+
+    public function createdBy():HasMany
+    {
+        return $this->hasMany(Approval::class,'created_by','id');
+    }
+
+    public function approvedBy():HasMany
+    {
+        return $this->hasMany(Approval::class,'approved_by','id');
     }
 }

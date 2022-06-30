@@ -15,13 +15,12 @@ class CreateApprovalsTable extends Migration
     {
         Schema::create('approvals', function (Blueprint $table) {
             $table->id();
-            $table->integer('moderated_by');
+            $table->integer('created_by');
             $table->integer('approved_by')->nullable();
             $table->string('model_type');
             $table->integer('model_id')->nullable();
             $table->string('data')->nullable();
             $table->string('action');
-            $table->dateTime('moderated_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
