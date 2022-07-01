@@ -27,19 +27,16 @@ Please check the official laravel installation guide for server requirements bef
 
 Clone the repository
 
-    git clone https://github.com/sprintcorp/transactional_mail_app.git
+    git clone https://github.com/sprintcorp/glover.git
 
 Switch to the folder directory
 
-    cd transactional_mail_app
+    cd glover
 
-Install all the serverside dependencies using composer manager
+Install all the dependencies using composer manager
 
     composer install
 
-Install all the client side dependencies using node package manager
-
-    npm install
 
 Copy the example env files and make the required configuration changes (database, queues and smtp connection)
 
@@ -56,7 +53,7 @@ Run the database migrations (**Set the database connection in .env before migrat
 
     php artisan migrate
 
-Populate the database with seed data with relationships which includes emails, statuses, attachments, etc
+Populate the database with seed data with into the database
 
     php artisan db:seed
 
@@ -64,11 +61,9 @@ Start the local development server
 
     php artisan serve
 
-Start the frontend
+You can now access the server at `http://127.0.0.1:8000`
 
-    npm run hot
-
-You can now access the server at http://127.0.0.1:8000
+Documentation link `https://documenter.getpostman.com/view/7305732/UzJESzEd`
 
 Running The Queue Worker for sending emails
 
@@ -77,6 +72,4 @@ Running The Queue Worker for sending emails
 To run test use the command below
 
     php artisan test
-
-
 
