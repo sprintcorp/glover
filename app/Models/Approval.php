@@ -17,13 +17,16 @@ class Approval extends Model
 
     protected static function booted()
     {
-        static::creating(function ($model) {
-            $model->data = serialize(request()->all()) ?? null;
-            $model->created_by = auth()->user()->id;
-            $model->model_type = request()->model;
-            $model->model_id = request()->user->id ?? null;
-            $model->action = request()->action;
-        });
+//        dd(auth()->user());
+        if(auth()->user()) {
+            static::creating(function ($model) {
+                $model->data = serialize(request()->all()) ?? null;
+                $model->created_by = auth()->user()->id;
+                $model->model_type = request()->model;
+                $model->model_id = request()->user->id ?? null;
+                $model->action = request()->action;
+            });
+        }
 
         static::retrieved(function ($model){
             if(request()->isMethod('GET'))

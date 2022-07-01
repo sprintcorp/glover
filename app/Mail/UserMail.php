@@ -11,16 +11,16 @@ class UserMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $approval;
+    public $action;
     public $subject;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($approval,$subject)
+    public function __construct($action,$subject)
     {
-        $this->approval = $approval;
+        $this->action = $action;
         $this->subject = $subject;
     }
 
@@ -31,6 +31,7 @@ class UserMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.user-email')->subject($this->subject);
+        return $this->markdown('emails.user-email')
+            ->subject($this->subject);
     }
 }

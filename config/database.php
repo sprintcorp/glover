@@ -91,6 +91,10 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'testing' => [
+            'driver' => env('DB_TEST_DRIVER'),
+        ]
+
     ],
 
     /*

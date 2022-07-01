@@ -18,36 +18,26 @@ class UserRepository implements UserInterface
 
     public function create($data)
     {
-        try {
-            $email = User::where('id','!=',auth()->user()->id)->where('role','admin')->first()->email;
-            request()->action = 'create';
-            request()->model = 'App\Models\User';
-            $approval = Approval::create();
-            event(new UserActionEvent($approval, $email,'Action needed for user creation'));
-            return $this->successResponse(
-                'User created successfully and awaiting approval',
-                201);
-        }catch(\Exception $exp) {
-            return $this->errorResponse($exp->getMessage(),400);
-        }
+        return $this->createApproval('User created successfully and awaiting approval',
+            'Action needed for user creation','create');
+    }
+
+    public function update(User $user, $data)
+    {
+        return $this->createApproval('User update logged and awaiting approval',
+            'Action needed for user update','update');
+    }
+
+    public function delete(User $user)
+    {
+        return $this->createApproval('User delete logged and awaiting approval',
+            'Action needed for deleting user','delete');
     }
 
     public function fetch()
     {
         $approval = Approval::where('approved_at',NULL)->get();
         return $this->showAll($approval);
-    }
-
-    public function update(User $user, $data)
-    {
-        return $this->createApproval($user,'User update logged and awaiting approval',
-            'Action needed for user update','update');
-    }
-
-    public function delete(User $user)
-    {
-        return $this->createApproval($user,'User delete logged and awaiting approval',
-            'Action needed for deleting user','delete');
     }
 
 
@@ -99,7 +89,7 @@ class UserRepository implements UserInterface
         return $this->errorResponse('You cannot decline request you created',400);
     }
 
-    private function createApproval(User $user,$message, $subject,$action)
+    private function createApproval($message, $subject,$action)
     {
         try {
             $email = User::where('id','!=',auth()->user()->id)->where('role','admin')->first()->email;

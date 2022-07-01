@@ -2,18 +2,20 @@
 
 namespace Database\Factories;
 
+use App\Models\Approval;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
-class UserFactory extends Factory
+class ApprovalFactory extends Factory
 {
+
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Approval::class;
 
     /**
      * Define the model's default state.
@@ -22,14 +24,18 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        return [
+        $user = [
             'firstname' => $this->faker->name,
             'lastname' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'role' => 'admin',
-            'remember_token' => Str::random(10),
+            'password' => 'password',
+        ];
+
+        return [
+            'created_by' => User::where('role','admin')->first()->id,
+            'model_type' => 'App\Models\User',
+            'data' => serialize($user),
+            'action' => 'create',
         ];
     }
 }

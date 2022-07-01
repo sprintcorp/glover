@@ -16,7 +16,6 @@ class AuthRepository implements AuthInterface
 
     public function login($data)
     {
-
         if (!$token = auth()->attempt($data)) {
             return $this->errorResponse('Invalid login credentials', 401);
         }
