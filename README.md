@@ -69,7 +69,14 @@ Running The Queue Worker for sending emails
 
     php artisan queue:work
 
-To run test use the command below
+To run test use the command below. The initial command sets the application to test using
+sqlite database and .env.testing
 
+    php artisan config:cache --env=testing
+    
     php artisan test
+
+Switch to use .env with the command below
+
+    php artisan config:cache --env=local
 
