@@ -29,7 +29,7 @@ class UserActionListener implements ShouldQueue
     {
         try {
             Mail::to($userActionEvent->email)->send(new UserMail(
-                $userActionEvent->approval->action,
+                $userActionEvent->approval,
                 $userActionEvent->subject));
         }catch (\Exception $exception){
             return $exception->getMessage();

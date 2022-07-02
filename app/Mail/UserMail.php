@@ -31,7 +31,6 @@ class UserMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.user-email')
-            ->subject($this->subject);
+        return $this->subject($this->subject)->view('emails.user-email');
     }
 }
