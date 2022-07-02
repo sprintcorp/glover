@@ -6,6 +6,7 @@ namespace App\Http\Repositories;
 
 use App\Events\UserActionEvent;
 use App\Http\Interfaces\UserInterface;
+use App\Http\Resources\UserRequestResource;
 use App\Http\Traits\ApiResponse;
 use App\Models\Approval;
 use App\Models\User;
@@ -37,7 +38,7 @@ class UserRepository implements UserInterface
     public function fetch()
     {
         $approval = Approval::where('approved_at',NULL)->get();
-        return $this->showAll($approval);
+        return $this->showAll(UserRequestResource::collection($approval));
     }
 
 
@@ -58,13 +59,12 @@ class UserRepository implements UserInterface
                         $message = 'User creation approved';
                         break;
                     case('update'):
-                        $approval->approvalModel->update($data);
-                        $approval::updateApproval($approval->approvalModel->id);
+                        $approval->user->update($data);
+                        $approval::updateApproval($approval->user->id);
                         $message = 'User update approved';
                         break;
                     case('delete'):
-                        $approval->approvalModel->delete();
-                        $approval->delete();
+                        $approval->user->delete();
                         $message = 'User deletion approved';
                         break;
                     default:

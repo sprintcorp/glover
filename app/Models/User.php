@@ -43,6 +43,11 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . " " . $this->lastname;
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -83,7 +88,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Approval::class,'approved_by','id');
     }
 
-    public function approvalModel():HasMany
+    public function user():HasMany
     {
         return $this->hasMany(Approval::class,'model_id','id');
     }

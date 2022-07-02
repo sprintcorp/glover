@@ -17,7 +17,6 @@ class Approval extends Model
 
     protected static function booted()
     {
-//        dd(auth()->user());
         if(auth()->user()) {
             static::creating(function ($model) {
                 $model->data = serialize(request()->all()) ?? null;
@@ -53,7 +52,7 @@ class Approval extends Model
         return $this->belongsTo(User::class,'approved_by','id');
     }
 
-    public function approvalModel():belongsTo
+    public function user():belongsTo
     {
         return $this->belongsTo(User::class,'model_id','id');
     }
